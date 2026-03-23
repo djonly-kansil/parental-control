@@ -22,7 +22,7 @@ jobs:
         with:
           java-version: '21'
           distribution: 'temurin'
-          cache: 'gradle'
+          # Kita hapus baris cache: gradle di sini agar tidak error
 
       - name: Install Dependencies
         run: |
@@ -34,15 +34,14 @@ jobs:
 
       - name: Initialize & Sync Capacitor
         run: |
+          # Paksa pembuatan folder android jika belum ada
           if [ ! -d "android" ]; then
             npx cap init "My App" "com.example.app" --web-dir dist
             npx cap add android
           fi
-          # Memaksa sinkronisasi ulang agar file gradle diperbarui
           npx cap sync android
 
       - name: Build APK
-        # Baris di bawah ini memastikan terminal menggunakan Java 21 saat menjalankan gradlew
         run: |
           cd android
           chmod +x gradlew
